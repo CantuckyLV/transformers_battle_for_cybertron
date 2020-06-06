@@ -8,4 +8,19 @@ import java.util.ArrayList;
 public class TransformersResponse implements Serializable {
     @SerializedName("transformers")
     private ArrayList<Transformer> transformers;
+
+    public ArrayList<Transformer> getTransformers() {
+        return transformers;
+    }
+
+    public void setTransformers(ArrayList<Transformer> transformers) {
+        this.transformers = transformers;
+    }
+
+    @Override
+    public String toString() {
+        return "TransformersResponse{" +
+                "transformers=" + transformers +
+                '}';
+    }
 }

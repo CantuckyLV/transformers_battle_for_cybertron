@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="50dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Transformer Data:"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name: "/>
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Team: "/>
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioGroup">
+
+            <RadioButton
+                android:id="@+id/team_auto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Autobots"/>
+
+
+            <RadioButton
+                android:id="@+id/team_decep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Decepticons"/>
+
+        </RadioGroup>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Strength: "/>
+        <EditText
+            android:id="@+id/et_strength"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Strength"
+            android:inputType="number"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Intelligence: "/>
+        <EditText
+            android:id="@+id/et_intelligence"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Intelligence"
+            android:inputType="number"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Speed: "/>
+        <EditText
+            android:id="@+id/et_speed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Speed"
+            android:inputType="number"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Endurance: "/>
+        <EditText
+            android:id="@+id/et_endurance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Endurance"
+            android:inputType="number"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rank: "/>
+        <EditText
+            android:id="@+id/et_rank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Rank"
+            android:inputType="number"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Courage: "/>
+        <EditText
+            android:id="@+id/et_courage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Courage"
+            android:inputType="number"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Firepower: "/>
+        <EditText
+            android:id="@+id/et_fire_power"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="FirePower"
+            android:inputType="number"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Skill: "/>
+        <EditText
+            android:id="@+id/et_skill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Skill"
+            android:inputType="number"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_add_transformer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add transformer"/>
+
+</LinearLayout>

@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public class Transformer implements Serializable {
     @SerializedName("id")
-    private int id;
+    private String id;
     @SerializedName("name")
     private String name;
     @SerializedName("team")
@@ -30,11 +30,29 @@ public class Transformer implements Serializable {
     @SerializedName("team_icon")
     private String team_icon;
 
-    public int getId() {
+    public Transformer() {
+    }
+
+    public Transformer(String id, String name, String team, int strength, int intelligence, int speed, int endurance, int rank, int courage, int firepower, int skill, String team_icon) {
+        this.id = id;
+        this.name = name;
+        this.team = team;
+        this.strength = strength;
+        this.intelligence = intelligence;
+        this.speed = speed;
+        this.endurance = endurance;
+        this.rank = rank;
+        this.courage = courage;
+        this.firepower = firepower;
+        this.skill = skill;
+        this.team_icon = team_icon;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

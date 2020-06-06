@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
@@ -23,5 +24,38 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_tst_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test Add T"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/token_get" />
+    <Button
+        android:id="@+id/btn_tst_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test Check T"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_tst_add" />
+    <Button
+        android:id="@+id/btn_tst_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test Edit T"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_tst_check" />
+    <Button
+        android:id="@+id/btn_tst_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test Delete T"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_tst_edit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
