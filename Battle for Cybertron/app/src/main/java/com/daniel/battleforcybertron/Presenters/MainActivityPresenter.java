@@ -1,6 +1,8 @@
 package com.daniel.battleforcybertron.Presenters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 
@@ -8,9 +10,12 @@ import com.daniel.battleforcybertron.Model.Transformer;
 import com.daniel.battleforcybertron.Model.TransformerRequest;
 import com.daniel.battleforcybertron.Model.TransformersResponse;
 import com.daniel.battleforcybertron.Remote.TransformersService;
+import com.daniel.battleforcybertron.Util.TransformerRankComparator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -27,6 +32,10 @@ public class MainActivityPresenter {
     private Retrofit retrofit;
     private TransformersService service;
     private String allSparkToken = "";
+    private ArrayList<Transformer> allTransformers= new ArrayList<>();
+    private ArrayList<Transformer> autobots;
+    private ArrayList<Transformer> decepticons;
+    private SharedPreferences prefs;
     //TODO QUITAR TEST OBJECTS
     String tstToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cmFuc2Zvcm1lcnNJZCI6Ii1NOTYzU2t0SGthZE81YlZnYXE2IiwiaWF0IjoxNTkxNDAzOTk0fQ.9bdqIZhmpJ-zGgsO3M4ZuGnG7okEoezulGU7nWOXuWE";
     Transformer testTransformer;
@@ -46,14 +55,28 @@ public class MainActivityPresenter {
         testTransformer = new Transformer("-M96Z4ggG9KjR364Rf_A","testotron","A",10,10,10,10,10,10,10,10,"fdhged");
     }
 
+    public void initialSetup(){
+        prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        //String persistedTransformers = "";
+        allSparkToken = prefs.getString("ALLSPARK", "");
+        //persistedTransformers = prefs.getString("TRANSFORMERS","");
+        if(allSparkToken.equals("")){
+            requestAllSpark();
+        }else{
+            getTransformers();
+        }
+    }
     //TODO handle error and response messages
     public void requestAllSpark(){
         Call<String> allSpark = service.getAllSpark();
         allSpark.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                allSparkToken = response.body();
-                Log.e("token:",allSparkToken);
+                if(response.code() == 200){
+                    allSparkToken = response.body();
+                    prefs.edit().putString("ALLSPARK", allSparkToken).apply();
+                    Log.e("token:",allSparkToken);
+                }
             }
 
             @Override
@@ -64,13 +87,17 @@ public class MainActivityPresenter {
         });
     }
     public void addTransformer(TransformerRequest newTransformer){
-        Call<Transformer> call = service.addTransformer("Bearer "+/*allSparkToken*/tstToken,newTransformer);
+        Call<Transformer> call = service.addTransformer("Bearer "+allSparkToken/*tstToken*/,newTransformer);
 
         call.enqueue(new Callback<Transformer>() {
             @Override
             public void onResponse(Call<Transformer> call, Response<Transformer> response) {
                 Transformer newT = response.body();
                 Log.e("transformer:",newT.toString());
+                Log.e("response",response.toString());
+                if(response.code()==201){
+                    getTransformers();
+                }
             }
 
             @Override
@@ -81,13 +108,16 @@ public class MainActivityPresenter {
         });
     }
     public void getTransformers(){
-        Call<TransformersResponse> call = service.getTransformers("Bearer "+/*allSparkToken*/tstToken);
+        Call<TransformersResponse> call = service.getTransformers("Bearer "+allSparkToken);
 
         call.enqueue(new Callback<TransformersResponse>() {
             @Override
             public void onResponse(Call<TransformersResponse> call, Response<TransformersResponse> response) {
-                TransformersResponse newT = response.body();
-                Log.e("transformer:",newT.toString());
+                if(response.code() == 200){
+                    allTransformers = response.body().getTransformers();
+                    refreshTeams();
+                    Log.e("transformers:",allTransformers.toString());
+                }
             }
 
             @Override
@@ -98,19 +128,20 @@ public class MainActivityPresenter {
         });
     }
 
-    public void updateTransformer(/*TransformerRequest transformer*/){
-        //TODO cambiar test objects por reales cuando ya tenga eltransformer que va a modificar
-        TransformerRequest testT = new TransformerRequest(testTransformer);
-        Random rand = new Random();
-        testT.setStrength(rand.nextInt((10 - 0) + 1) + 0);
+    public void updateTransformer(TransformerRequest transformer){
 
-        Call<Transformer> call = service.updateTransformer("Bearer "+/*allSparkToken*/tstToken,testT);
+        Call<Transformer> call = service.updateTransformer("Bearer "+allSparkToken/*tstToken*/,transformer);
 
         call.enqueue(new Callback<Transformer>() {
             @Override
             public void onResponse(Call<Transformer> call, Response<Transformer> response) {
                 Transformer newT = response.body();
+                //if 200: actualizar lista de transformers
                 Log.e("transformer:",newT.toString());
+                Log.e("response",response.toString());
+                if(response.code()==200){
+                    getTransformers();
+                }
             }
 
             @Override
@@ -121,12 +152,15 @@ public class MainActivityPresenter {
         });
     }
 
-    public void deleteTransformer(/*String id*/){
-        Call<String> call = service.deleteTransformer("Bearer "+/*allSparkToken*/tstToken,testTransformer.getId());
+    public void deleteTransformer(String id){
+        Call<String> call = service.deleteTransformer("Bearer "+allSparkToken/*tstToken*/,id);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.e("deleted:","ya");
+                Log.e("deleted:",response.toString());
+                if(response.code()==204){
+                    getTransformers();
+                }
             }
 
             @Override
@@ -137,10 +171,29 @@ public class MainActivityPresenter {
         });
     }
 
+    public void refreshTeams(){
+        autobots = new ArrayList<>();
+        decepticons = new ArrayList<>();
+        Collections.sort(allTransformers, new TransformerRankComparator());
+        Collections.reverse(allTransformers);
+        for (Transformer transformer: allTransformers){
+            if(transformer.getTeam().equals("A")){
+                autobots.add(transformer);
+            }else{
+                decepticons.add(transformer);
+            }
+        }
+        view.refreshTeams(autobots,decepticons);
+    }
+
+    public void getTeams(){
+        view.goToWar(autobots,decepticons);
+    }
+
     public interface View{
         void showProgressDialog();
         void hideProgressDialog();
-        /*void setupSportsList(ArrayList<Sport> sports);
-        void goToSport(Sport sport);*/
+        void refreshTeams(ArrayList<Transformer> autobots,ArrayList<Transformer> decepticons);
+        void goToWar(ArrayList<Transformer> autobots,ArrayList<Transformer> decepticons);
     }
 }
