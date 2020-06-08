@@ -3,6 +3,7 @@ package com.daniel.battleforcybertron.Presenters;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -32,6 +33,7 @@ public class WarActivityPresenter {
     private ArrayList<Transformer> autobots;
     private ArrayList<Transformer> decepticons;
     private int autobotsScore=0,decepticonsScore=0, rounds=0;
+    private CountDownTimer animationTimer = null;
 
     public WarActivityPresenter(WarActivityPresenter.View view, Context context) {
         this.view = view;
@@ -126,7 +128,32 @@ public class WarActivityPresenter {
             }
 
         }
-        view.showWinner(Integer.compare(autobotsScore,decepticonsScore),rounds);
+        int result = Integer.compare(autobotsScore,decepticonsScore);
+        ArrayList<Transformer> survivors = new ArrayList<>();
+        switch (result){
+            case -1:
+                while (autoIt.hasNext()) {
+                    survivors.add(autoIt.next());
+                }
+                break;
+            case 0:
+                while (autoIt.hasNext()||decepIt.hasNext()) {
+                    if(autoIt.hasNext()){
+                        survivors.add(autoIt.next());
+                    }
+                    if(decepIt.hasNext()){
+                        survivors.add(decepIt.next());
+                    }
+
+                }
+                break;
+            case 1:
+                while (decepIt.hasNext()) {
+                    survivors.add(decepIt.next());
+                }
+                break;
+        }
+        view.showWinner(result,rounds,survivors);
     }
 
     public void destroyTransformer(String id){
@@ -154,13 +181,27 @@ public class WarActivityPresenter {
         for(Transformer t : decepticons){
             destroyTransformer(t.getId());
         }
-        view.showWinner(0,rounds);
+        view.showWinner(0,rounds,new ArrayList<Transformer>());
+    }
+
+    public void startTimer() {
+        animationTimer = new CountDownTimer(3000, 1000) {
+            public void onTick(long millisUntilFinished) {
+            }
+            public void onFinish() {
+                view.hideProgressDialog();
+            }
+        };
+        animationTimer.start();
+    }
+    public void stopTimer(){
+        if(animationTimer!=null)
+            animationTimer.cancel();
     }
 
     public interface View{
         void showProgressDialog();
         void hideProgressDialog();
-        //todo regresar numero de rounds
-        void showWinner(int result,int rounds);
+        void showWinner(int result,int rounds,ArrayList<Transformer> survivors);
     }
 }
