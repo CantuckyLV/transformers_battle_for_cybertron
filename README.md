@@ -39,8 +39,8 @@ For Emulator:
 adb push <file-source-local> <destination-path-remote>
 ```
 
-2)<file-source-local> should be the folder path for the location of the apk
+2)"<file-source-local>" should be the folder path for the location of the apk
 
-3)<destination-path-remote> should be the folder path where the apk will be stored in the emulator
+3)"<destination-path-remote>" should be the folder path where the apk will be stored in the emulator
 
 4)follow steps 3-5 of the physical device installation process
