@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         btnDecepEdit = findViewById(R.id.btn_decep_edit);
         btnDecepAdd = findViewById(R.id.btn_decep_add);
         testAdd.setOnClickListener(this);
-        //btnWar.setOnClickListener(this);
         btnBattle.setOnClickListener(this);
         btnAutoDelete.setOnClickListener(this);
         btnAutoEdit.setOnClickListener(this);
@@ -112,18 +111,22 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         btnAddTransformer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newTransformer.setName(etName.getText().toString());
-                newTransformer.setStrength(Integer.parseInt(etStrength.getText().toString()));
-                newTransformer.setIntelligence(Integer.parseInt(etIntelligence.getText().toString()));
-                newTransformer.setSpeed(Integer.parseInt(etSpeed.getText().toString()));
-                newTransformer.setEndurance(Integer.parseInt(etEndurance.getText().toString()));
-                newTransformer.setRank(Integer.parseInt(etRank.getText().toString()));
-                newTransformer.setCourage(Integer.parseInt(etCourage.getText().toString()));
-                newTransformer.setFirepower(Integer.parseInt(etFirePower.getText().toString()));
-                newTransformer.setSkill(Integer.parseInt(etSkill.getText().toString()));
-                Log.e("Transformer a agregar ",newTransformer.toString());
-                presenter.addTransformer(newTransformer);
-                dialog.dismiss();
+                try{
+                    newTransformer.setName(etName.getText().toString());
+                    newTransformer.setStrength(Integer.parseInt(etStrength.getText().toString()));
+                    newTransformer.setIntelligence(Integer.parseInt(etIntelligence.getText().toString()));
+                    newTransformer.setSpeed(Integer.parseInt(etSpeed.getText().toString()));
+                    newTransformer.setEndurance(Integer.parseInt(etEndurance.getText().toString()));
+                    newTransformer.setRank(Integer.parseInt(etRank.getText().toString()));
+                    newTransformer.setCourage(Integer.parseInt(etCourage.getText().toString()));
+                    newTransformer.setFirepower(Integer.parseInt(etFirePower.getText().toString()));
+                    newTransformer.setSkill(Integer.parseInt(etSkill.getText().toString()));
+                    presenter.addTransformer(newTransformer);
+                    dialog.dismiss();
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),"Please verify fields",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         dialog.show();
@@ -155,18 +158,22 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         btnAddTransformer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newTransformer.setName(etName.getText().toString());
-                newTransformer.setStrength(Integer.parseInt(etStrength.getText().toString()));
-                newTransformer.setIntelligence(Integer.parseInt(etIntelligence.getText().toString()));
-                newTransformer.setSpeed(Integer.parseInt(etSpeed.getText().toString()));
-                newTransformer.setEndurance(Integer.parseInt(etEndurance.getText().toString()));
-                newTransformer.setRank(Integer.parseInt(etRank.getText().toString()));
-                newTransformer.setCourage(Integer.parseInt(etCourage.getText().toString()));
-                newTransformer.setFirepower(Integer.parseInt(etFirePower.getText().toString()));
-                newTransformer.setSkill(Integer.parseInt(etSkill.getText().toString()));
-                Log.e("Transformer a mod ",newTransformer.toString());
-                presenter.updateTransformer(newTransformer);
-                dialog.dismiss();
+                try{
+                    newTransformer.setName(etName.getText().toString());
+                    newTransformer.setStrength(Integer.parseInt(etStrength.getText().toString()));
+                    newTransformer.setIntelligence(Integer.parseInt(etIntelligence.getText().toString()));
+                    newTransformer.setSpeed(Integer.parseInt(etSpeed.getText().toString()));
+                    newTransformer.setEndurance(Integer.parseInt(etEndurance.getText().toString()));
+                    newTransformer.setRank(Integer.parseInt(etRank.getText().toString()));
+                    newTransformer.setCourage(Integer.parseInt(etCourage.getText().toString()));
+                    newTransformer.setFirepower(Integer.parseInt(etFirePower.getText().toString()));
+                    newTransformer.setSkill(Integer.parseInt(etSkill.getText().toString()));
+                    presenter.updateTransformer(newTransformer);
+                    dialog.dismiss();
+                }catch (Exception e){
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),"Please verify fields",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         dialog.show();
