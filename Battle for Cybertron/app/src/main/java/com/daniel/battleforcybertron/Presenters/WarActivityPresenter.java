@@ -123,8 +123,10 @@ public class WarActivityPresenter {
                 rounds++;
                 continue;
             }
-            int autobotOverall = autobot.getStrength()+autobot.getIntelligence()+autobot.getSpeed()+autobot.getEndurance()+autobot.getRank()+autobot.getCourage()+autobot.getFirepower()+autobot.getSkill();
-            int decepticonOverall = decepticon.getStrength()+decepticon.getIntelligence()+decepticon.getSpeed()+decepticon.getEndurance()+decepticon.getRank()+decepticon.getCourage()+decepticon.getFirepower()+decepticon.getSkill();
+            //(Strength + Intelligence + Speed +
+            //Endurance + Firepower
+            int autobotOverall = autobot.getStrength()+autobot.getIntelligence()+autobot.getSpeed()+autobot.getEndurance()+autobot.getFirepower();
+            int decepticonOverall = decepticon.getStrength()+decepticon.getIntelligence()+decepticon.getSpeed()+decepticon.getEndurance()+decepticon.getFirepower();
             if(autobotOverall>decepticonOverall){
                 autobotsScore++;
                 destroyTransformer(decepticon.getId());
