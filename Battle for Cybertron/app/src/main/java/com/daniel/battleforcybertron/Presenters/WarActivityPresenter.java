@@ -20,6 +20,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+/**
+ * Presenter class for the War Activity.
+ */
 
 public class WarActivityPresenter {
 
@@ -34,6 +37,7 @@ public class WarActivityPresenter {
     private ArrayList<Transformer> decepticons;
     private int autobotsScore=0,decepticonsScore=0, rounds=0;
     private CountDownTimer animationTimer = null;
+    private boolean isMatchFinished = false;
 
     public WarActivityPresenter(WarActivityPresenter.View view, Context context) {
         this.view = view;
@@ -46,13 +50,26 @@ public class WarActivityPresenter {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         service = retrofit.create(TransformersService.class);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        allSparkToken = prefs.getString("ALLSPARK", "");
+        try {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            allSparkToken = prefs.getString("ALLSPARK", "");
+        } catch (Exception e) {
+            allSparkToken = "";
+        }
     }
 
-    public void wageWar(Bundle extras){
-        autobots = (ArrayList<Transformer>)extras.getSerializable("autobots");
-        decepticons = (ArrayList<Transformer>)extras.getSerializable("decepticons");
+    /**
+     * Recieves the Autobots and decepticons list and iterates through each of them matching each other with every cycle.
+     * Takes Each transformer's stats to match up against it's opponent and decides based on criteria which transformer wins each battle.
+     * sets the value of result which is a comparison of each teams score
+     * Iterates through the remaining transformers of the loosing teams (both teams if a tie takes place) and adds them to a new list
+     * calls the View's show Winner method.
+     * @param  autobots a list of battling Autobots.
+     * @param decepticons a list of battling Decepticons.
+     */
+    public void wageWar(ArrayList<Transformer> autobots, ArrayList<Transformer> decepticons){
+        this.autobots = autobots;
+        this.decepticons = decepticons;
         Iterator<Transformer> autoIt = autobots.iterator();
         Iterator<Transformer> decepIt = decepticons.iterator();
         while (autoIt.hasNext() && decepIt.hasNext()) {
@@ -153,8 +170,13 @@ public class WarActivityPresenter {
                 }
                 break;
         }
+        isMatchFinished = true;
         view.showWinner(result,rounds,survivors);
     }
+    /**
+     * Initializes the retrofit interface for the destroy transformer API call.
+     * @param  id The id of the transformer that lost the match and must be deleted.
+     */
 
     public void destroyTransformer(String id){
         Call<String> call = service.deleteTransformer("Bearer "+allSparkToken,id);
@@ -174,6 +196,9 @@ public class WarActivityPresenter {
         });
     }
 
+    /**
+     * Destroys all transformers in the game
+     */
     public void destroyAll(){
         for(Transformer t : autobots){
             destroyTransformer(t.getId());
@@ -181,9 +206,12 @@ public class WarActivityPresenter {
         for(Transformer t : decepticons){
             destroyTransformer(t.getId());
         }
+        isMatchFinished = true;
         view.showWinner(0,rounds,new ArrayList<Transformer>());
     }
-
+    /**
+     * Starts a timer for the duration of the "battling" animation.
+     */
     public void startTimer() {
         animationTimer = new CountDownTimer(3000, 1000) {
             public void onTick(long millisUntilFinished) {
@@ -194,9 +222,52 @@ public class WarActivityPresenter {
         };
         animationTimer.start();
     }
+    /**
+     * Stops the timer if there is one.
+     */
     public void stopTimer(){
         if(animationTimer!=null)
             animationTimer.cancel();
+    }
+
+    public int getAutobotsScore() {
+        return autobotsScore;
+    }
+
+    public void setAutobotsScore(int autobotsScore) {
+        this.autobotsScore = autobotsScore;
+    }
+
+    public int getDecepticonsScore() {
+        return decepticonsScore;
+    }
+
+    public void setDecepticonsScore(int decepticonsScore) {
+        this.decepticonsScore = decepticonsScore;
+    }
+
+    public int getRounds() {
+        return rounds;
+    }
+
+    public void setRounds(int rounds) {
+        this.rounds = rounds;
+    }
+
+    public boolean isMatchFinished() {
+        return isMatchFinished;
+    }
+
+    public void setMatchFinished(boolean matchFinished) {
+        isMatchFinished = matchFinished;
+    }
+
+    public String getAllSparkToken() {
+        return allSparkToken;
+    }
+
+    public void setAllSparkToken(String allSparkToken) {
+        this.allSparkToken = allSparkToken;
     }
 
     public interface View{

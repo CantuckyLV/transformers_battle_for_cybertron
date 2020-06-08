@@ -14,6 +14,9 @@ public class SplashActivity extends AppCompatActivity implements SplashActivityP
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        /**
+
+         * */
         presenter = new SplashActivityPresenter(this,this);
         presenter.startTimer();
     }

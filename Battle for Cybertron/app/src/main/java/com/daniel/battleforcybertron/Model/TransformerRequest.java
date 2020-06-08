@@ -2,6 +2,9 @@ package com.daniel.battleforcybertron.Model;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Pojo that represents a Request body for the API calls
+ */
 public class TransformerRequest {
     @SerializedName("id")
     private String id;

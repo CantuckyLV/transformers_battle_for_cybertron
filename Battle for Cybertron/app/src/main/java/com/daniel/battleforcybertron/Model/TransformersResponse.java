@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Pojo that represents a Response body for the API calls
+ */
 public class TransformersResponse implements Serializable {
     @SerializedName("transformers")
     private ArrayList<Transformer> transformers;

@@ -49,9 +49,18 @@ public class WarActivity extends AppCompatActivity implements WarActivityPresent
         teamIcon = findViewById(R.id.team_icon);
         buttonBack.setOnClickListener(this);
         showProgressDialog();
-        presenter.wageWar(extras);
+        ArrayList<Transformer> autobots = new ArrayList<>();
+        ArrayList<Transformer> decepticons = new ArrayList<>();
+        autobots = (ArrayList<Transformer>)extras.getSerializable("autobots");
+        decepticons = (ArrayList<Transformer>)extras.getSerializable("decepticons");
+        presenter.wageWar(autobots,decepticons);
     }
 
+    /**
+     * Sets the visibility of the result UI elements as gone.
+     * Sets the Battle icon visibility as visible.
+     * Animates the Battle icon to fade in and out.
+     */
     @Override
     public void showProgressDialog() {
         presenter.startTimer();
@@ -85,7 +94,10 @@ public class WarActivity extends AppCompatActivity implements WarActivityPresent
         ivLoading.startAnimation(s);
 
     }
-
+    /**
+     * Sets the visibility of the result UI elements as visible.
+     * Sets the Battle icon visibility as gone.
+     */
     @Override
     public void hideProgressDialog() {
         presenter.stopTimer();
@@ -93,6 +105,12 @@ public class WarActivity extends AppCompatActivity implements WarActivityPresent
         clResult.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Sets the match results to their according information display.
+     * @param  result an int value that represents the winner -1 is Decepticons. 0 is a tie, 1 is Autobots.
+     * @param rounds the number of rounds of the match.
+     * @param survivors the list of remaining oposing transformers.
+     */
     @Override
     public void showWinner(int result, int rounds,ArrayList<Transformer> survivors) {
         switch (result){

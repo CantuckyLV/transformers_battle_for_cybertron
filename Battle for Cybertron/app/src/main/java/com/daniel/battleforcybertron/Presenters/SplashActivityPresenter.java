@@ -6,6 +6,9 @@ import android.os.CountDownTimer;
 import com.daniel.battleforcybertron.Model.Transformer;
 
 import java.util.ArrayList;
+/**
+ * Presenter class for the Splash Activity
+ */
 
 public class SplashActivityPresenter {
 
@@ -18,7 +21,9 @@ public class SplashActivityPresenter {
         this.context = context;
 
     }
-
+    /**
+     * Starts a timer and after 2 seconds executes the goToMain() method on SplashActivity
+     */
     public void startTimer() {
         splashTimer = new CountDownTimer(2000, 1000) {
             public void onTick(long millisUntilFinished) {
@@ -31,6 +36,9 @@ public class SplashActivityPresenter {
         splashTimer.start();
     }
 
+    /**
+     * Destroys timer if it is still running
+     */
     public void stopTimer(){
         if(splashTimer!=null)
             splashTimer.cancel();

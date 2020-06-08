@@ -66,6 +66,9 @@ public class TransformerAdapter extends RecyclerView.Adapter<TransformerAdapter.
         }
     }
 
+    /**
+     * interface that allows the Recyclerview item to listen for clicks
+     */
     public interface OnItemClickListener {
         void onItemClick(int position);
     }

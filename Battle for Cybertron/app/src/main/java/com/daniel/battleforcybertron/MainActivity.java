@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         setupView();
     }
     private void setupView(){
-        //TODO View initialization
         testAdd = findViewById(R.id.btn_tst_add);
         rvAutobots = findViewById(R.id.rv_autobots);
         rvDecepticons = findViewById(R.id.rv_decepticons);
@@ -89,33 +88,18 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
     }
 
-    public void showAddTransformer(View v,int team) {
+    /**
+     * Displays a Dialog for the user to add new transfomer
+     *
+     * @param  team  the team in which the new transformer will be created
+     */
+    public void showAddTransformer(int team) {
         final TransformerRequest newTransformer = new TransformerRequest();
         final Dialog dialog = new Dialog(MainActivity.this);
         dialog.setContentView(R.layout.add_transformer_dialog);
         dialog.setTitle("Add Transformer");
         Button btnAddTransformer = dialog.findViewById(R.id.btn_add_transformer);
-        /*final RadioGroup team = dialog.findViewById(R.id.radioGroup);
-        final int childCount = team.getChildCount();*/
         final EditText etName = dialog.findViewById(R.id.et_name), etStrength = dialog.findViewById(R.id.et_strength), etIntelligence = dialog.findViewById(R.id.et_intelligence), etSpeed = dialog.findViewById(R.id.et_speed), etEndurance = dialog.findViewById(R.id.et_endurance), etRank = dialog.findViewById(R.id.et_rank), etCourage = dialog.findViewById(R.id.et_courage), etFirePower = dialog.findViewById(R.id.et_fire_power), etSkill = dialog.findViewById(R.id.et_skill);
-        /*team.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int id) {
-                for (int i = 0; i < childCount; i++) {
-                    RadioButton btn = (RadioButton) team.getChildAt(i);
-                    if (btn.getId() == id) {
-                        switch (i){
-                            case 0:
-                                newTransformer.setTeam("A");
-                                break;
-                            case 1:
-                                newTransformer.setTeam("D");
-                                break;
-                        }
-                    }
-                }
-            }
-        });*/
         switch(team){
             case 0:
                 newTransformer.setTeam("A");
@@ -145,21 +129,17 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         dialog.show();
     }
 
-    public void showEditTransformer(View v, Transformer transformer) {
+    /**
+     * Displays a Dialog for the user to modify new transfomer
+     *
+     * @param  transformer  a Transformer object which will be modified
+     */
+    public void showEditTransformer(Transformer transformer) {
         final TransformerRequest newTransformer = new TransformerRequest();
         final Dialog dialog = new Dialog(MainActivity.this);
         dialog.setContentView(R.layout.add_transformer_dialog);
         dialog.setTitle("Edit Transformer");
         Button btnAddTransformer = dialog.findViewById(R.id.btn_add_transformer);
-        /*final RadioGroup team = dialog.findViewById(R.id.radioGroup);
-        RadioButton current;
-        final int childCount = team.getChildCount();
-        if(transformer.getTeam().equals("A")){
-           current = (RadioButton)team.getChildAt(0);
-        }else{
-            current = (RadioButton)team.getChildAt(1);
-        }
-        current.setChecked(true);*/
         final EditText etName = dialog.findViewById(R.id.et_name), etStrength = dialog.findViewById(R.id.et_strength), etIntelligence = dialog.findViewById(R.id.et_intelligence), etSpeed = dialog.findViewById(R.id.et_speed), etEndurance = dialog.findViewById(R.id.et_endurance), etRank = dialog.findViewById(R.id.et_rank), etCourage = dialog.findViewById(R.id.et_courage), etFirePower = dialog.findViewById(R.id.et_fire_power), etSkill = dialog.findViewById(R.id.et_skill);
         etName.setText(transformer.getName());
         etStrength.setText(String.valueOf(transformer.getStrength()));
@@ -172,24 +152,6 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         etSkill.setText(String.valueOf(transformer.getSkill()));
         newTransformer.setId(transformer.getId());
         newTransformer.setTeam(transformer.getTeam());
-        /*team.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int id) {
-                for (int i = 0; i < childCount; i++) {
-                    RadioButton btn = (RadioButton) team.getChildAt(i);
-                    if (btn.getId() == id) {
-                        switch (i){
-                            case 0:
-                                newTransformer.setTeam("A");
-                                break;
-                            case 1:
-                                newTransformer.setTeam("D");
-                                break;
-                        }
-                    }
-                }
-            }
-        });*/
         btnAddTransformer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,15 +172,12 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         dialog.show();
     }
 
-    @Override
-    public void showProgressDialog() {
-
-    }
-
-    @Override
-    public void hideProgressDialog() {
-
-    }
+    /**
+     * Resets the stats view of each team and resets the adapters for the team members lists
+     *
+     * @param  autobots  the list of autobots to be displayed
+     * @param  decepticons  the list of decepticons to be displayed
+     */
 
     @Override
     public void refreshTeams(final ArrayList<Transformer> autobots, final ArrayList<Transformer> decepticons) {
@@ -231,6 +190,8 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         cardAutoCourage.setText("");
         cardAutoFirepower.setText("");
         cardAutoSkill.setText("");
+        currentAutobot = new Transformer();
+        currentDecepticon = new Transformer();
 
         cardDecepName.setText("");
         cardDecepStrength.setText("");
@@ -280,6 +241,9 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         rvDecepticons.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    /**
+     * Starts a new activity for the match to happen
+     */
     @Override
     public void goToWar(ArrayList<Transformer> autobots, ArrayList<Transformer> decepticons) {
         Intent intent = new Intent(this, WarActivity.class);
@@ -287,7 +251,6 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         bundle.putSerializable("autobots", autobots);
         bundle.putSerializable("decepticons",decepticons);
         intent.putExtras(bundle);
-        //startActivity(intent);
         startActivityForResult(intent, 1);
     }
 
@@ -306,7 +269,7 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
                 break;
             case R.id.btn_auto_edit:
                 if(currentAutobot!=null){
-                    showEditTransformer(view,currentAutobot);
+                    showEditTransformer(currentAutobot);
                 }else{
                     Toast.makeText(getApplicationContext(),"Please select Autobot first",Toast.LENGTH_SHORT).show();
                 }
@@ -320,16 +283,16 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
                 break;
             case R.id.btn_decep_edit:
                 if(currentDecepticon!=null){
-                    showEditTransformer(view,currentDecepticon);
+                    showEditTransformer(currentDecepticon);
                 }else{
                     Toast.makeText(getApplicationContext(),"Please select Decepticon first",Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.btn_auto_add:
-                showAddTransformer(view,0);
+                showAddTransformer(0);
                 break;
             case R.id.btn_decep_add:
-                showAddTransformer(view,1);
+                showAddTransformer(1);
                 break;
         }
     }

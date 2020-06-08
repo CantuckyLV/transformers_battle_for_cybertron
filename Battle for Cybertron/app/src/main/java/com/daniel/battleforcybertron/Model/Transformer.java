@@ -3,6 +3,9 @@ package com.daniel.battleforcybertron.Model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+/**
+ * Pojo that represents a transformer. COntains name and stats as well as team
+ */
 
 public class Transformer implements Serializable {
     @SerializedName("id")
