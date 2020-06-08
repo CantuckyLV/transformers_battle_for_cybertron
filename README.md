@@ -21,7 +21,7 @@ Every Transformer can be edited or deleted. After all parameters have been confi
 
 For physical devices:
 
-1)grab the "app-debug.apk" file in the "outputs" folder
+1)grab the "app-debug.apk" file in the "APK" folder
 
 2)transfer the apk into the physical device
 
